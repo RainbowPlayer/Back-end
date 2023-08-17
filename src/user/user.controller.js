@@ -15,7 +15,7 @@ class UserController {
 
     response.send(user);
   }
-
+  
   deleteUser = async (request, response) => {
     const { id } = request.params;
     await userModel.delete(id);
