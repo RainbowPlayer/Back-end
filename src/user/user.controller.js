@@ -1,6 +1,8 @@
 const userModel = require('./user.model');
 const jwt = require('jsonwebtoken');
 
+const SECRET_KEY = "welcome_to_night_city";
+
 class UserController {
   getOneUser = async (request, response) => {
     const { id } = request.params;
@@ -31,6 +33,18 @@ class UserController {
     response.send(user);
   }
 
+  authenticateUser = async (request, response) => {
+    const { login, password } = request.body;
+
+    if (login === "admin" && password === "admin") {
+      const payload = { login: "admin" };
+      const staticToken = jwt.sign(payload, SECRET_KEY);
+
+      response.send({ token: staticToken });
+    } else {
+      response.status(401).send({ message: "failed" });
+    }
+  }
 }
 
 module.exports = new UserController();
